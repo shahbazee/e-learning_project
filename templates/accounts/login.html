@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login - E-Learning
+{% endblock %}
+
+{% block content %}
+
+<h1>Login</h1>
+
+<form>
+
+    <label>Username</label>
+    <input type="text" name="username">
+
+    <br><br>
+
+    <label>Password</label>
+    <input type="password" name="password">
+
+    <br><br>
+
+    <button type="submit">Login</button>
+
+</form>
+
+<p>
+    Don't have an account?
+    <a href="#">Signup</a>
+</p>
+
+{% endblock %}

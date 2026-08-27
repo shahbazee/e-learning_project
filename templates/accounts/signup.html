@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+Signup - E-Learning
+{% endblock %}
+
+{% block content %}
+
+<h1>Create Account</h1>
+
+<form>
+
+    <label>Username</label>
+    <input type="text" name="username">
+
+    <br><br>
+
+    <label>Email</label>
+    <input type="email" name="email">
+
+    <br><br>
+
+    <label>Password</label>
+    <input type="password" name="password">
+
+    <br><br>
+
+    <label>Confirm Password</label>
+    <input type="password" name="confirm_password">
+
+    <br><br>
+
+    <button type="submit">Create Account</button>
+
+</form>
+
+<p>
+    Already have an account?
+    <a href="#">Login</a>
+</p>
+
+{% endblock %}

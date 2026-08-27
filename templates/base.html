@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>E-Learning Site</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}E-Learning{% endblock %}</title>
 </head>
 
 <body>
 
-    <nav>
-        E-Learning Site
-    </nav>
+    {% include "includes/navbar.html" %}
 
     <main>
         {% block content %}
         {% endblock %}
     </main>
 
-    <footer>
-         <p>© 2026 E-Learning Site</p>
-    </footer>
+    {% include "includes/footer.html" %}
 
 </body>
 </html>
