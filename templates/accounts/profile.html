@@ -1,22 +1,33 @@
 {% extends "base.html" %}
 
 {% block title %}
-Profile - E-Learning
+My Profile - E-Learning
 {% endblock %}
 
 {% block content %}
 
 <h1>My Profile</h1>
 
-<div>
-    <h2>Profile Information</h2>
+<h2>Profile Information</h2>
 
-    <p>Name: Shahbaz</p>
-    <p>Email: example@email.com</p>
-    <p>Username: shahbaz</p>
+<p>
+    <strong>Name:</strong>
+    {{ user.first_name }} {{ user.last_name }}
+</p>
 
-    <button>Edit Profile</button>
-    <button>Change Password</button>
-</div>
+<p>
+    <strong>Email:</strong>
+    {{ user.email }}
+</p>
+
+<p>
+    <strong>Username:</strong>
+    {{ user.username }}
+</p>
+
+<a href="{% url 'edit_profile' %}">
+    <button type="button">Edit Profile</button>
+</a>
 
 {% endblock %}
+

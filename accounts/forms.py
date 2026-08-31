@@ -2,7 +2,7 @@ from django import forms
 
 
 class SignupForm(forms.Form):
-    username = forms.CharField(initial="shahbaz")
+    username = forms.CharField()
     email = forms.EmailField(label="Email Address")
     password = forms.CharField(widget=forms.PasswordInput())
     confirm_password = forms.CharField(widget=forms.PasswordInput())
@@ -22,7 +22,7 @@ class SignupForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data["email"]
 
-        if not email.endwith("@gmail.com"):
+        if not email.endswith("@gmail.com"):
             raise forms.ValidationError(
                 "Email must be a Gmail Address. "
             )
@@ -45,22 +45,6 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
 
 
-class ContactForm(forms.Form):
-    name = forms.CharField()
-    email = forms.EmailField()
-    subject = forms.CharField()
-    message = forms.CharField(widget=forms.Textarea())
-
-
-    def cleaned_message(self):
-        message = self.cleaned_data["message"]
-
-        if len(message) < 10:
-            raise forms.ValidationError(
-                "Message must be 10 Characters."
-            )
-
-        return message
 
 class SearchForm(forms.Form):
     search = forms.CharField()
@@ -80,31 +64,12 @@ class ProfileUpdateForm(forms.Form):
     first_name = forms.CharField()
     last_name = forms.CharField()
     email = forms.EmailField()
-    phone = forms.CharField()
 
 
-class ProductCreationForm(forms.Form):
-    name = forms.CharField()
-    description = forms.CharField(widget=forms.Textarea())
-    price = forms.DecimalField()
-    quantity = forms.IntegerField()
 
 class PasswordChangeForm(forms.Form):
     old_password = forms.CharField(widget=forms.PasswordInput())
     new_pasword = forms.CharField(widget=forms.PasswordInput())
-
-
-
-class FileUplaod(forms.Form):
-    title = forms.CharField()
-    file = forms.FileField()
-    image = forms.ImageField()
-
-
-class FilteringForm(forms.Form):
-    category = forms.CharField(required=False)
-    min_price = forms.DecimalField(required=False)
-    max_price = forms.DecimalField(required=False)
 
 
 

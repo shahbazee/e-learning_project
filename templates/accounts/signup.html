@@ -1,34 +1,19 @@
+```html
 {% extends "base.html" %}
 
 {% block title %}
 Signup - E-Learning
-{% endblock %}
+{% endblock %} 
 
 {% block content %}
 
 <h1>Create Account</h1>
 
-<form>
+<form method="post">
 
-    <label>Username</label>
-    <input type="text" name="username">
+    {% csrf_token %}
 
-    <br><br>
-
-    <label>Email</label>
-    <input type="email" name="email">
-
-    <br><br>
-
-    <label>Password</label>
-    <input type="password" name="password">
-
-    <br><br>
-
-    <label>Confirm Password</label>
-    <input type="password" name="confirm_password">
-
-    <br><br>
+    {{ form.as_p }}
 
     <button type="submit">Create Account</button>
 
@@ -36,7 +21,8 @@ Signup - E-Learning
 
 <p>
     Already have an account?
-    <a href="#">Login</a>
+    <a href="{% url 'login' %}">Login</a>
 </p>
 
 {% endblock %}
+```

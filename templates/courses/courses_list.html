@@ -6,8 +6,48 @@
 
 {% block content %}
 
-<h1>Our Courses</h1>
+<section class="courses-page">
+    <div class="container">
 
-<p>Explore our available courses.</p>
+        <div class="courses-page__header">
+            <span class="section__tag">All Courses</span>
+            <h1 class="courses-page__title">Explore our courses</h1>
+            <p class="courses-page__subtitle">Expert-led online courses in programming, design, business, and more.</p>
+        </div>
+
+        {% if courses %}
+            <div class="grid grid--3">
+                {% for course in courses %}
+                    <article class="course-card">
+                        <div class="course-card__image">📚</div>
+                        <div class="course-card__body">
+                            <div class="course-card__meta">
+                                <span class="course-card__category">{{ course.course_type }}</span>
+                                {% if course.price == 0 %}
+                                    <span class="course-card__price course-card__price--free">Free</span>
+                                {% else %}
+                                    <span class="course-card__price">${{ course.price }}</span>
+                                {% endif %}
+                            </div>
+                            <h3 class="course-card__title">{{ course.name }}</h3>
+                            <p class="course-card__desc">{{ course.description|truncatewords:20 }}</p>
+                            <div class="course-card__footer">
+                                <span class="course-card__instructor">👨‍🏫 {{ course.instructor }}</span>
+                                <a href="#" class="btn btn--primary">View Course</a>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <span class="emoji">📚</span>
+                <h3>No courses available yet</h3>
+                <p>Check back soon — new courses are on the way.</p>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
 
 {% endblock %}

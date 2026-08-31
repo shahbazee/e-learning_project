@@ -1,14 +1,220 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    Home | E-Learning Site
-{% endblock %}
+{% block title %}Home | E-Learning Platform{% endblock %}
 
 {% block content %}
 
+<!-- ===== Hero ===== -->
+<section class="hero">
+    <div class="container hero__inner">
+        <div class="hero__content">
+            <span class="hero__tagline">
+                🎉 {% if user.is_authenticated %}Welcome back, {{ user.username }}{% else %}Trusted by 25,000+ students{% endif %}
+            </span>
+            <h1 class="hero__title">Learn Any Skill, <span>Anytime, Anywhere.</span></h1>
+            <p class="hero__text">
+                Join thousands of students and advance your career with expert-led
+                online courses in programming, design, business, and more.
+            </p>
+            <div class="hero__actions">
+                <a href="{% url 'course_list' %}" class="btn btn--light">Explore Courses</a>
+                <a href="#" class="btn btn--outline">Get Started</a>
+            </div>
+        </div>
 
-<h1>Welcome to E-Learning Site</h1>
+        <div class="hero__art">
+            <div class="hero__art-card">
+                <span class="emoji">📚</span>
+                <h3 style="color:#fff;">Learn by Doing</h3>
+                <p style="color:rgba(255,255,255,0.9);">Interactive lessons, real projects, flexible pace.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-<p>Learn new skills with our online courses.</p>
+<!-- ===== Featured Courses ===== -->
+<section class="section">
+    <div class="container">
+        <div class="section__header">
+            <span class="section__tag">Featured Courses</span>
+            <h2 class="section__title">Popular Courses To Get You Started</h2>
+            <p class="section__subtitle">Hand-picked courses loved by our students.</p>
+        </div>
 
+        {% if courses %}
+            <div class="grid grid--3">
+                {% for course in courses %}
+                    <article class="course-card">
+                        <div class="course-card__image">🏫</div>
+                        <div class="course-card__body">
+                            <div class="course-card__meta">
+                                <span class="course-card__category">{{ course.course_type }}</span>
+                                {% if course.price == 0 %}
+                                    <span class="course-card__price course-card__price--free">Free</span>
+                                {% else %}
+                                    <span class="course-card__price">${{ course.price }}</span>
+                                {% endif %}
+                            </div>
+                            <h3 class="course-card__title">{{ course.name }}</h3>
+                            <p class="course-card__desc">{{ course.description|truncatewords:20 }}</p>
+                            <div class="course-card__footer">
+                                <span class="course-card__instructor">👨‍🏫 {{ course.instructor }}</span>
+                                <a href="#" class="btn btn--primary">View Course</a>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+<!-- FALLBACK_CARDS -->
+            <div class="grid grid--3">
+                <article class="course-card">
+                    <div class="course-card__image">💻</div>
+                    <div class="course-card__body">
+                        <div class="course-card__meta">
+                            <span class="course-card__category">Programming</span>
+                            <span class="course-card__price">$49</span>
+                        </div>
+                        <h3 class="course-card__title">Python Programming</h3>
+                        <p class="course-card__desc">Learn Python from beginner to advanced with hands-on projects and exercises.</p>
+                        <div class="course-card__footer">
+                            <span class="course-card__instructor">👨‍🏫 John Doe</span>
+                            <a href="#" class="btn btn--primary">View Course</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="course-card">
+                    <div class="course-card__image">🕸️</div>
+                    <div class="course-card__body">
+                        <div class="course-card__meta">
+                            <span class="course-card__category">Web Development</span>
+                            <span class="course-card__price">$79</span>
+                        </div>
+                        <h3 class="course-card__title">Django Web Development</h3>
+                        <p class="course-card__desc">Build powerful web applications using Django and Python end-to-end.</p>
+                        <div class="course-card__footer">
+                            <span class="course-card__instructor">👨‍🏫 Jane Smith</span>
+                            <a href="#" class="btn btn--primary">View Course</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="course-card">
+                    <div class="course-card__image">🗄️</div>
+                    <div class="course-card__body">
+                        <div class="course-card__meta">
+                            <span class="course-card__category">Database</span>
+                            <span class="course-card__price course-card__price--free">Free</span>
+                        </div>
+                        <h3 class="course-card__title">SQL For Beginners</h3>
+                        <p class="course-card__desc">Master SQL queries and database management from zero to advanced.</p>
+                        <div class="course-card__footer">
+                            <span class="course-card__instructor">👨‍🏫 Alex Brown</span>
+                            <a href="#" class="btn btn--primary">View Course</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ===== Categories ===== -->
+<section class="section section--muted">
+    <div class="container">
+        <div class="section__header">
+            <span class="section__tag">Categories</span>
+            <h2 class="section__title">Explore By Category</h2>
+            <p class="section__subtitle">Find the perfect course for your goals.</p>
+        </div>
+
+        <div class="grid grid--4">
+            <a href="#" class="category-card">
+                <span class="category-card__icon">💻</span>
+                <h3>Programming</h3>
+                <p>Python, JavaScript & more</p>
+            </a>
+            <a href="#" class="category-card">
+                <span class="category-card__icon">🎨</span>
+                <h3>Design</h3>
+                <p>UI/UX, graphic design</p>
+            </a>
+            <a href="#" class="category-card">
+                <span class="category-card__icon">📊</span>
+                <h3>Business</h3>
+                <p>Marketing & management</p>
+            </a>
+            <a href="#" class="category-card">
+                <span class="category-card__icon">🤖</span>
+                <h3>Data Science</h3>
+                <p>Analytics & machine learning</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Why Choose Us ===== -->
+<section class="section">
+    <div class="container">
+        <div class="section__header">
+            <span class="section__tag">Why Choose Us</span>
+            <h2 class="section__title">Learn With The Best</h2>
+        </div>
+
+        <div class="why__grid">
+            <div class="why-card">
+                <div class="why-card__icon">👨‍🏫</div>
+                <h3>Expert Instructors</h3>
+                <p>Learn from industry professionals with years of real-world experience.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-card__icon">🕒</div>
+                <h3>Learn At Your Pace</h3>
+                <p>Access courses 24/7 and learn whenever and wherever suits you best.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-card__icon">🏆</div>
+                <h3>Certificates</h3>
+                <p>Earn recognized certificates to showcase your new skills and boost your career.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Statistics ===== -->
+<section class="stats">
+    <div class="container">
+        <div class="stats__grid">
+            <div>
+                <p class="stat__value">120+</p>
+                <p class="stat__label">Courses</p>
+            </div>
+            <div>
+                <p class="stat__value">25k+</p>
+                <p class="stat__label">Students</p>
+            </div>
+            <div>
+                <p class="stat__value">80+</p>
+                <p class="stat__label">Instructors</p>
+            </div>
+            <div>
+                <p class="stat__value">4.8★</p>
+                <p class="stat__label">Average Rating</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="section">
+    <div class="container">
+        <div class="cta">
+            <h2>Ready to Start Learning Today?</h2>
+            <p>Create your free account and unlock access to all our courses and resources.</p>
+            <div class="cta__actions">
+                <a href="#" class="btn btn--light">Get Started</a>
+                <a href="{% url 'course_list' %}" class="btn btn--outline">Browse Courses</a>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

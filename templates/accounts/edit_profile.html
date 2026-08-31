@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block title %}
-Login - E-Learning
+Edit Profile - E-Learning
 {% endblock %}
 
 {% block content %}
 
-<h1>Login</h1>
+<h1>Edit Profile</h1>
 
 <form method="post">
 
@@ -14,13 +14,12 @@ Login - E-Learning
 
     {{ form.as_p }}
 
-    <button type="submit">Login</button>
+    <button type="submit">Save Changes</button>
 
 </form>
 
 <p>
-    Don't have an account?
-    <a href="{% url 'signup' %}">Signup</a>
+    <a href="{% url 'profile' %}">Cancel</a>
 </p>
 
 {% endblock %}
