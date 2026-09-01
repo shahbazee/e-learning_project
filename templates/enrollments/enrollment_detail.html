@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ enrollment.course.name }} | My Course{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <span class="section__tag">My Course</span>
+        <h1>{{ enrollment.course.name }}</h1>
+        <p class="section__subtitle">by {{ enrollment.course.instructor }}</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container" style="max-width: 720px;">
+        <article class="course-card">
+            <div class="course-card__body">
+                <div class="course-card__meta">
+                    <span class="course-card__category">{{ enrollment.course.course_type }}</span>
+                    {% if enrollment.course.price == 0 %}
+                        <span class="course-card__price course-card__price--free">Free</span>
+                    {% else %}
+                        <span class="course-card__price">${{ enrollment.course.price }}</span>
+                    {% endif %}
+                </div>
+                <p class="course-card__desc">{{ enrollment.course.description }}</p>
+
+                <div class="enrolled-course__progress">
+                    <div class="progress-bar"><span style="width: {{ enrollment.progress }}%;"></span></div>
+                    <p class="enrolled-course__progress-label">
+                        <span>Progress</span><strong>{{ enrollment.progress }}%</strong>
+                    </p>
+                </div>
+
+                <p>
+                    <strong>Status:</strong> {{ enrollment.status }} &nbsp;·&nbsp;
+                    <strong>Enrolled:</strong> {{ enrollment.enrollment_date|date:"M d, Y" }}
+                </p>
+
+                <div class="course-card__footer">
+                    <a href="{% url 'my_enrollments' %}" class="btn btn--outline">Back to My Courses</a>
+                    <a href="{% url 'course_list' %}" class="btn btn--primary">Explore More Courses</a>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+{% endblock %}

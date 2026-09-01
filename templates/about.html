@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us | E-Learning Platform{% endblock %}
+
+{% block content %}
+
+<!-- ===== Page Hero ===== -->
+<section class="page-hero">
+    <div class="container">
+        <span class="section__tag">About Us</span>
+        <h1>About Our E-Learning Platform</h1>
+        <p class="section__subtitle">Learn. Grow. Succeed.</p>
+    </div>
+</section>
+
+<!-- ===== Who We Are ===== -->
+<section class="section">
+    <div class="container">
+        <div class="section__header">
+            <span class="section__tag">Who We Are</span>
+            <h2 class="section__title">Welcome to our E-Learning Platform</h2>
+            <p class="section__subtitle">
+                An online learning website designed to help students develop
+                their knowledge, technical skills, and professional abilities.
+            </p>
+        </div>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+            <div class="card">
+                <p>
+                    Our platform provides a simple and convenient environment
+                    where learners can explore courses, enroll in their
+                    favorite courses, and continue their learning journey.
+
+                </p>
+            </div>
+            <div class="card">
+                <p>
+                    From beginner-friendly introductions to advanced
+                    professional training — every course is crafted to help
+                    you build real, practical skills.
+
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Our Mission ===== -->
+<section class="section section--muted">
+    <div class="container">
+        <div class="section__header">
+            <span class="section__tag">Our Mission</span>
+            <h2 class="section__title">Making quality education accessible</h2>
+            <p class="section__subtitle">
+                Our mission is to make quality education accessible and easy to understand.
+                We aim to provide learners with useful courses and learning resources that can help them
+                improve their skills and achieve their career goals.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== What We Offer ===== -->
+<section class="section">
+    <div class="container">
+        <div class="section__header">
+            <span class="section__tag">What We Offer</span>
+            <h2 class="section__title">Everything you need to learn</h2>
+        </div>
+        <div class="grid grid--3">
+            <div class="category-card">
+                <span class="category-card__icon">📚</span>
+                <h3>Online Learning Courses</h3>
+                <p>Expert-led courses with hands-on lessons.</p>
+            </div>
+            <div class="category-card">
+                <span class="category-card__icon">✅</span>
+                <h3>Course Enrollment</h3>
+                <p>Enroll in your favorite courses in one click.</p>
+            </div>
+            <div class="category-card">
+                <span class="category-card__icon">👤</span>
+                <h3>Student Accounts</h3>
+                <p>Track your learning journey with a personal account.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== What We Offer (cont.) ===== -->
+        <div class="grid grid--3">
+            <div class="category-card">
+                <span class="category-card__icon">🎯</span>
+                <h3>Personalized Profiles</h3>
+                <p>Your profile, your progress, your pace.</p>
+            </div>
+            <div class="category-card">
+                <span class="category-card__icon">🔍</span>
+                <h3>Easy Course Discovery</h3>
+                <p>Search, filter, and find the right course fast.</p>
+            </div>
+            <div class="category-card">
+                <span class="category-card__icon">🏆</span>
+                <h3>Skill-Based Learning</h3>
+                <p>Practical, career-ready skills from day one.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Our Goal ===== -->
+<section class="section section--muted">
+    <div class="container">
+        <div class="section__header">
+            <span class="section__tag">Our Goal</span>
+            <h2 class="section__title">Build a user-friendly learning environment</h2>
+            <p class="section__subtitle">
+                Our goal is to build a user-friendly e-learning environment
+                where students can learn at their own pace, explore new
+                subjects, and develop the skills needed for their future.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Why Choose Us ===== -->
+<section class="section">
+    <div class="container">
+        <div class="section__header">
+            <span class="section__tag">Why Choose Us?</span>
+            <h2 class="section__title">Learn With The Best</h2>
+        </div>
+        <div class="why__grid">
+            <div class="why-card">
+                <div class="why-card__icon">🌱</div>
+                <h3>Simple &amp; User-Friendly</h3>
+                <p>A clean, simple platform that keeps learning stress-free.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-card__icon">📖</div>
+                <h3>Wide Learning Opportunities</h3>
+                <p>A wide range of courses and topics to explore.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-card__icon">⚡</div>
+                <h3>Easy Enrollment</h3>
+                <p>Sign up in seconds, enroll in one click, start learning today.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-card__icon">🕒</div>
+                <h3>Flexible Learning</h3>
+                <p>Learn whenever and wherever suits you best.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-card__icon">🛠️</div>
+                <h3>Focus on Practical Skills</h3>
+                <p>Course content built around real-world, usable skills.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-card__icon">🎓</div>
+                <h3>Expert Instructors</h3>
+                <p>Learn from industry professionals with years of experience.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="section">
+    <div class="container">
+        <div class="cta">
+            <h2>Ready to Start Learning Today?</h2>
+            <p>Create your free account and unlock access to all our courses and resources.</p>
+            <div class="cta__actions">
+                <a href="{% url 'signup' %}" class="btn btn--light">Get Started</a>
+                <a href="{% url 'course_list' %}" class="btn btn--outline">Browse Courses</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

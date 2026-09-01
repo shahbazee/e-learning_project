@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}My Courses | E-Learning{% endblock %}
+
+{% block content %}
+<section class="my-courses">
+    <div class="container">
+        <div class="my-courses__header">
+            <span class="section__tag">My Learning</span>
+            <h1 class="my-courses__title">My Enrolled Courses</h1>
+            <p class="my-courses__subtitle">Courses you have enrolled in appear here.</p>
+        </div>
+
+        {% if enrollments %}
+            <div class="my-courses__list">
+                {% for enrollment in enrollments %}
+                    <article class="enrolled-course">
+                        <div class="enrolled-course__thumb">📚</div>
+                        <div class="enrolled-course__body">
+                            <div class="enrolled-course__meta">
+                                <span class="enrolled-course__category">{{ enrollment.course.course_type }}</span>
+                                {% if enrollment.course.price == 0 %}
+                                    <span class="enrolled-course__status">Free</span>
+                                {% else %}
+                                    <span class="enrolled-course__status">${{ enrollment.course.price }}</span>
+                                {% endif %}
+                            </div>
+                            <h3 class="enrolled-course__title">{{ enrollment.course.name }}</h3>
+                            <p class="enrolled-course__desc">{{ enrollment.course.description|truncatewords:20 }}</p>
+
+                            <div class="enrolled-course__progress">
+                                <div class="progress-bar"><span style="width: {{ enrollment.progress }}%;"></span></div>
+                                <p class="enrolled-course__progress-label">
+                                    <span>Progress</span><strong>{{ enrollment.progress }}%</strong>
+                                </p>
+                            </div>
+
+                            <div class="enrolled-course__actions">
+                                <a href="{% url 'course_list' %}" class="btn btn--primary">Continue Learning</a>
+                                <span class="enrolled-course__date">Enrolled {{ enrollment.enrollment_date|date:"M d, Y" }}</span>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <span class="emoji">🎓</span>
+                <h3>You haven't enrolled in any courses yet</h3>
+                <p>Browse courses and start learning today.</p>
+                <a href="{% url 'course_list' %}" class="btn btn--primary">Browse Courses</a>
+            </div>
+        {% endif %}
+
+    </div>
+</section>
+{% endblock %}
