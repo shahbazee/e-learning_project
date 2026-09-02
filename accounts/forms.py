@@ -34,7 +34,7 @@ class SignupForm(forms.Form):
         password = self.cleaned_data["password"]
 
         if len(password) < 8:
-            forms.ValidationError(
+            raise forms.ValidationError(
                 "Password must be at least 8 characters."
             )
         return password
