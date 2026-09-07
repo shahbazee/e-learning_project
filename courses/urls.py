@@ -9,5 +9,7 @@ urlpatterns = [
     path('filter/', views.filter_courses, name='filter_courses'),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
+
+    path('api/courses/', views.course_list_api, name='course_list_api'),
 ]
 
