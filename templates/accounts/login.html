@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load socialaccount %}
+
 {% block title %}
 Login - E-Learning
 {% endblock %}
@@ -17,6 +19,14 @@ Login - E-Learning
     <button type="submit">Login</button>
 
 </form>
+
+<hr>
+
+<a href="{% provider_login_url 'google' %}">
+    <button type="button">
+        Continue with Google
+    </button>
+</a>
 
 <p>
     Don't have an account?
