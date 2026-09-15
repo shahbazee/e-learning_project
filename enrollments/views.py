@@ -35,6 +35,10 @@ def enroll_course(request, course_id):
     # Find the course selected by the user
     course = get_object_or_404(Course, id=course_id)
 
+    # Paid courses must go through the Stripe checkout session
+    if course.price > 0:
+        return redirect('create_checkout_session', course_id=course.id)
+
     Enrollment.objects.get_or_create(
         user=request.user,
         course=course

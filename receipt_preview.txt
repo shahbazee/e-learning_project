@@ -1,0 +1,29 @@
+PAYMENT RECEIPT — E-Learning Platform
+=====================================
+
+Thank you for your purchase, Payment Tester!
+
+Billed to   : customer@example.com
+Receipt no. : pi_3XkDf9qZvT7aLmP
+
+ORDER SUMMARY
+-------------
+Course          : Python for Beginners
+Quantity        : 1
+Amount paid     : $49.00
+Total paid      : $49.00
+
+PAYMENT DETAILS
+---------------
+Status          : Paid
+Payment date    : September 15, 2026 at 2:30 PM
+Payment method  : Credit / Debit card (Stripe)
+Reference       : pi_3XkDf9qZvT7aLmP
+
+You are now enrolled in "Python for Beginners". Happy learning!
+
+-------------------------------------
+This is an automated receipt. Please
+keep it for your records. Questions
+about your purchase? Contact support
+at shahbazbutt22ee@gmail.com.

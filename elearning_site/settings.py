@@ -7,20 +7,37 @@ For more information on this file, see
 https://docs.djangoproject.com/en/6.1/topics/settings/
 """
 
+import os
+
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from the .env file in the project root (if present).
+load_dotenv(BASE_DIR / ".env")
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
-SECRET_KEY = 'django-insecure-^i1s2%moz$y)rqy)mx0eow5(%o=5!*bt_sy))jp)qtebqx#w^t'
+# Sensitive and environment-specific values are read from environment
+# variables (loaded from the project's .env file). See .env.example.
 
-DEBUG = True
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-dev-only-not-for-production",
+)
 
-ALLOWED_HOSTS = []
+DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() in ("1", "true", "yes", "on")
+
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
+    if host.strip()
+]
 
 
 # Application definition
@@ -94,11 +111,11 @@ WSGI_APPLICATION = 'elearning_site.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'elearning_db',
-        'USER': 'postgres',
-        'PASSWORD': '12345678',
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'NAME': os.environ.get("DB_NAME", "elearning_db"),
+        'USER': os.environ.get("DB_USER", "postgres"),
+        'PASSWORD': os.environ.get("DB_PASSWORD", ""),
+        'HOST': os.environ.get("DB_HOST", "localhost"),
+        'PORT': os.environ.get("DB_PORT", "5432"),
     }
 }
 
@@ -141,6 +158,12 @@ STATICFILES_DIRS = [
 ]
 
 
+# Media files (user-uploaded content, e.g. course images uploaded in the admin)
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
 # Authentication
 
 AUTHENTICATION_BACKENDS = [
@@ -155,24 +178,44 @@ LOGOUT_REDIRECT_URL = "/accounts/login/"
 # ==========================================================
 # EMAIL SETTINGS
 # ==========================================================
+# Configured through environment variables (see .env.example).
+# For local testing, set EMAIL_BACKEND to
+# "django.core.mail.backends.console.EmailBackend" to print emails to the console.
 
-# For testing OTP:
-# OTP will appear in your terminal/console.
+EMAIL_BACKEND = os.environ.get(
+    "EMAIL_BACKEND",
+    "django.core.mail.backends.smtp.EmailBackend",
+)
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.gmail.com")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
+EMAIL_USE_TLS = os.environ.get(
+    "EMAIL_USE_TLS", "True"
+).lower() in ("1", "true", "yes", "on")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER)
+
+# Recipient of site notifications (e.g. contact-form submissions).
+ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", EMAIL_HOST_USER or "")
+
+# Public base URL used in email links (e.g. "https://www.elearning.com").
+# Leave empty to fall back to the request host on the success page.
+SITE_URL = os.environ.get("SITE_URL", "").rstrip("/")
 
 
 # ==========================================================
-# GMAIL SETTINGS
+# STRIPE SETTINGS
 # ==========================================================
+# Configured through environment variables (see .env.example).
 
-# When you are ready to send real emails, comment the
-# EMAIL_BACKEND above and uncomment these:
+STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "")
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "")
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'yourgmail@gmail.com'
-# EMAIL_HOST_PASSWORD = 'your-gmail-app-password'
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# Signing secret for the checkout.session.completed webhook. Set this in
+# .env once you configure the endpoint in the Stripe dashboard (paste the
+# "whsec_..." value). When empty the webhook endpoint stays inactive.
+STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")

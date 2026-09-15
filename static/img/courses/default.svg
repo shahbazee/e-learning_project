@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-labelledby="title desc">
+  <title id="title">E-Learning Course</title>
+  <desc id="desc">Generic professional course artwork</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#262626"/>
+      <stop offset="100%" stop-color="#0d0d0d"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <circle cx="690" cy="70" r="190" fill="#ffffff" opacity="0.045"/>
+  <circle cx="110" cy="420" r="150" fill="#ffffff" opacity="0.035"/>
+  <text x="400" y="210" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="110" font-weight="700" fill="#ffffff" letterspacing="-2">Course</text>
+  <text x="400" y="275" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="500" fill="#9a9a9a" letterspacing="4">LEARN · GROW · SUCCEED</text>
+</svg>

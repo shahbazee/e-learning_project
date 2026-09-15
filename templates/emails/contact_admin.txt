@@ -1,0 +1,10 @@
+NEW CONTACT MESSAGE — E-Learning Platform
+==========================================
+
+Name     : {{ message.name }}
+Email    : {{ message.email }}
+Subject  : {{ message.subject }}
+Received : {{ message.created_at|date:"F j, Y \a\t g:i A" }}
+
+Message:
+{{ message.message }}

@@ -9,6 +9,23 @@ urlpatterns = [
     path('filter/', views.filter_courses, name='filter_courses'),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
+    path(
+    "course/<int:course_id>/checkout/",
+    views.create_checkout_session,
+    name="create_checkout_session"
+),
+
+path(
+    "payment-success/",
+    views.payment_success,
+    name="payment_success"
+),
+
+path(
+    "stripe/webhook/",
+    views.stripe_webhook,
+    name="stripe_webhook"
+),
 
     path('api/courses/', views.course_list_api, name='course_list_api'),
 ]

@@ -6,20 +6,36 @@ Edit Profile - E-Learning
 
 {% block content %}
 
-<h1>Edit Profile</h1>
+<section class="auth-section">
+    <div class="auth-card">
 
-<form method="post">
+        <div class="auth-card__head">
+            <div class="auth-card__icon">👤</div>
+            <h1>Edit Profile</h1>
+            <p class="auth-card__sub">
+                Update your name and email address.
+            </p>
+        </div>
 
-    {% csrf_token %}
+        <form method="post" action="{% url 'edit_profile' %}" novalidate>
 
-    {{ form.as_p }}
+            {% csrf_token %}
 
-    <button type="submit">Save Changes</button>
+            {{ form.as_p }}
 
-</form>
+            <button type="submit" class="btn btn--primary btn--block">
+                Save Changes
+            </button>
 
-<p>
-    <a href="{% url 'profile' %}">Cancel</a>
-</p>
+        </form>
+
+        <p class="auth-card__footer">
+            <a href="{% url 'profile' %}">Cancel</a>
+            &middot;
+            <a href="{% url 'home' %}">Back to Home</a>
+        </p>
+
+    </div>
+</section>
 
 {% endblock %}

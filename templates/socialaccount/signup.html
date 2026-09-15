@@ -1,0 +1,33 @@
+{% extends "socialaccount/base_entrance.html" %}
+{% load i18n %}
+
+{% block title %}
+Complete Signup - E-Learning
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+    <div class="auth-card">
+
+        <h1>Complete Your Signup</h1>
+        <p class="auth-card__sub">
+            You are about to use your {{ account.get_provider.name }} account to login to
+            {{ site.name }}. As a final step, please complete the following form:
+        </p>
+
+        {% url 'socialaccount_signup' as action_url %}
+
+        <form method="post" action="{{ action_url }}" novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+            {{ redirect_field }}
+            <button type="submit" class="btn btn--primary btn--block">
+                Sign Up
+            </button>
+        </form>
+
+    </div>
+</section>
+
+{% endblock %}

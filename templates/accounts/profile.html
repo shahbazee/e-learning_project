@@ -6,28 +6,150 @@ My Profile - E-Learning
 
 {% block content %}
 
-<h1>My Profile</h1>
+<section class="profile-section">
+    <div class="container">
 
-<h2>Profile Information</h2>
+        <div class="profile-grid">
 
-<p>
-    <strong>Name:</strong>
-    {{ user.first_name }} {{ user.last_name }}
-</p>
+            <!-- ===== Identity card ===== -->
+            <div class="card profile-card">
 
-<p>
-    <strong>Email:</strong>
-    {{ user.email }}
-</p>
+                <div class="profile__avatar">
+                    {{ initial }}
+                </div>
 
-<p>
-    <strong>Username:</strong>
-    {{ user.username }}
-</p>
+                <h2 class="profile__name">
+                    {{ user.first_name|title }} {{ user.last_name|title }}
+                </h2>
 
-<a href="{% url 'edit_profile' %}">
-    <button type="button">Edit Profile</button>
-</a>
+                <p class="profile__role">
+                    {% if user.is_superuser or user.is_staff %}
+                        Administrator
+                    {% else %}
+                        Student
+                    {% endif %}
+                    &middot; @{{ user.username }}
+                </p>
+
+                <ul class="profile__list">
+                    <li>
+                        <span>Email</span>
+                        <strong>{{ user.email|default:"Not set" }}</strong>
+                    </li>
+                    <li>
+                        <span>First Name</span>
+                        <strong>{{ user.first_name|default:"Not set" }}</strong>
+                    </li>
+                    <li>
+                        <span>Last Name</span>
+                        <strong>{{ user.last_name|default:"Not set" }}</strong>
+                    </li>
+                    <li>
+                        <span>Member Since</span>
+                        <strong>{{ user.date_joined|date:"M d, Y" }}</strong>
+                    </li>
+                    <li>
+                        <span>Last Login</span>
+                        <strong>{{ user.last_login|date:"M d, Y"|default:"Never" }}</strong>
+                    </li>
+                    <li>
+                        <span>Account Status</span>
+                        <strong class="profile__status {% if user.is_active %}is-active{% else %}is-inactive{% endif %}">
+                            {% if user.is_active %}Active{% else %}Inactive{% endif %}
+                        </strong>
+                    </li>
+                </ul>
+
+                <div class="profile__actions">
+                    <a href="{% url 'edit_profile' %}" class="btn btn--primary btn--block">
+                        Edit Profile
+                    </a>
+                    <a href="{% url 'my_enrollments' %}" class="btn btn--outline btn--block">
+                        My Courses
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- ===== Stats + enrollments ===== -->
+            <div class="profile-main">
+
+                <div class="profile-stats">
+
+                    <div class="card profile-stat">
+                        <span class="profile-stat__value">{{ enrolled_count }}</span>
+                        <span class="profile-stat__label">Enrolled Courses</span>
+                    </div>
+
+                    <div class="card profile-stat">
+                        <span class="profile-stat__value">{{ in_progress_count }}</span>
+                        <span class="profile-stat__label">In Progress</span>
+                    </div>
+
+                    <div class="card profile-stat">
+                        <span class="profile-stat__value">{{ completed_count }}</span>
+                        <span class="profile-stat__label">Completed</span>
+                    </div>
+
+                </div>
+
+                <div class="card">
+                    <h3 class="card__title">My Courses</h3>
+
+                    {% if enrollments %}
+
+                        <ul class="profile-courses">
+                            {% for enrollment in enrollments %}
+
+                                <li class="profile-course">
+                                    <div class="profile-course__thumb">📚</div>
+
+                                    <div class="profile-course__body">
+                                        <h4 class="profile-course__title">
+                                            {{ enrollment.course.name }}
+                                        </h4>
+
+                                        <p class="profile-course__meta">
+                                            {{ enrollment.course.course_type|title }}
+                                            &middot; enrolled {{ enrollment.enrollment_date|date:"M d, Y" }}
+                                        </p>
+
+                                        <div class="progress-wrap">
+                                            <div class="progress-wrap__top">
+                                                <span>Progress</span>
+                                                <strong>{{ enrollment.progress }}%</strong>
+                                            </div>
+                                            <div class="progress-bar">
+                                                <span style="width: {{ enrollment.progress }}%;"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                            {% endfor %}
+                        </ul>
+
+                    {% else %}
+
+                        <div class="empty-state">
+                            <span class="emoji">🎓</span>
+                            <h3>No courses yet</h3>
+                            <p>Browse courses and start learning today.</p>
+                            <a href="{% url 'course_list' %}" class="btn btn--primary">
+                                Browse Courses
+                            </a>
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
 
 {% endblock %}
 

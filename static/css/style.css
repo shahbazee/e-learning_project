@@ -208,6 +208,13 @@ main > p {
     z-index: 100;
     background: var(--color-white);
     border-bottom: 1px solid var(--color-border);
+    box-shadow: none;
+    transition: box-shadow 0.3s ease;
+}
+
+/* Soft elevation once the page is scrolled (toggled from main.js) */
+.navbar.is-scrolled {
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.10);
 }
 
 .navbar__inner {
@@ -241,6 +248,7 @@ main > p {
 }
 
 .navbar__links > a {
+    position: relative;
     color: var(--color-dark);
     font-weight: 500;
     font-size: 16px;
@@ -249,6 +257,30 @@ main > p {
 
 .navbar__links > a:hover {
     color: var(--color-text);
+}
+
+/* Sliding underline indicator on hover and on the active page */
+.navbar__links > a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 2.5px;
+    border-radius: 2px;
+    background: var(--color-primary);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.25s ease;
+}
+
+.navbar__links > a:hover::after,
+.navbar__links > a.is-active::after {
+    transform: scaleX(1);
+}
+
+.navbar__links > a.is-active {
+    font-weight: 700;
 }
 
 .navbar__auth {
@@ -315,6 +347,12 @@ main > p {
     background: var(--color-white);
     color: var(--color-dark);
     padding: 64px 0 80px;
+    /* Hero-scoped accent palette (kept out of the global monochrome tokens).
+       Feeds the tagline dot, gradient title mark, avatars + the dashboard banner. */
+    --accent-indigo: #6366f1;
+    --accent-violet: #8b5cf6;
+    --accent-blue: #4f7cff;
+    --accent-ink: #26224a;
 }
 
 .hero__inner {
@@ -325,7 +363,9 @@ main > p {
 }
 
 .hero__tagline {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     background: var(--color-bg);
     color: var(--color-dark);
     padding: 8px 16px;
@@ -333,6 +373,20 @@ main > p {
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 20px;
+}
+
+.hero__tagline-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    flex: none;
+    animation: heroPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes heroPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.35); }
+    50%      { transform: scale(1.25); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
 }
 
 .hero__badge {
@@ -348,8 +402,18 @@ main > p {
     letter-spacing: 0;
 }
 
-.hero__title span {
+.hero__title span:not(.hero__title-mark) {
     color: var(--color-dark);
+}
+
+/* Gradient-emphasised keyword (hero-scoped accent via `background-clip: text`,
+   supported by all modern browsers) */
+.hero__title-mark {
+    background: linear-gradient(120deg, var(--accent-indigo) 0%, var(--accent-violet) 55%, var(--accent-blue) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
 }
 
 .hero__text {
@@ -367,34 +431,443 @@ main > p {
     flex-wrap: wrap;
 }
 
+.hero__actions .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+}
+
+.btn__arrow {
+    display: inline-block;
+    font-size: 15px;
+    line-height: 1;
+    transition: transform 0.3s ease;
+}
+
+.hero__actions .btn--light:hover .btn__arrow {
+    transform: translateX(5px);
+}
+
+/* --- Entrance reveal (staggered fade-up) --- */
+.hero__content > * {
+    animation: heroReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.hero__content > .hero__tagline { animation-delay: 0.05s; }
+.hero__content > .hero__title   { animation-delay: 0.15s; }
+.hero__content > .hero__text    { animation-delay: 0.25s; }
+.hero__content > .hero__actions { animation-delay: 0.35s; }
+.hero__content > .hero__proof   { animation-delay: 0.5s; }
+
+@keyframes heroReveal {
+    from { opacity: 0; transform: translateY(26px); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* --- Social proof (student avatars + star rating) --- */
+.hero__proof {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.hero__proof-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    line-height: 1.25;
+}
+
+.hero__avatars {
+    display: flex;
+}
+
+.hero__avatars-item {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--avatar-bg), var(--accent-ink));
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 700;
+    border: 2px solid var(--color-white);
+    margin-left: -10px;
+    flex: none;
+}
+
+.hero__avatars-item:first-child { margin-left: 0; }
+
+.hero__stars {
+    color: #f5b301;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    line-height: 1;
+}
+
+.hero__proof-text {
+    font-size: 13.5px;
+    color: var(--color-text);
+}
+
+.hero__proof-text strong {
+    color: var(--color-dark);
+    font-weight: 700;
+}
+
+/* ===== Hero interactive banner =====
+   The right-hand hero panel: a modern learning dashboard with floating
+   course cards. Modern SaaS accents (indigo/violet/blue) are scoped to the
+   hero only (`--accent-*` tokens on `.hero`) so the global monochrome design
+   system stays untouched. */
 .hero__art {
     text-align: center;
+    position: relative;
 }
 
-.hero__art-card {
-    background: var(--color-bg);
-    border: none;
-    border-radius: var(--radius);
-    padding: 32px;
+.hero__banner {
+    position: relative;
+    width: min(460px, 100%);
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+    animation: heroBannerIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both 0.2s;
 }
 
-.hero__art-card .emoji {
-    font-size: 3.4rem;
-    display: block;
-    margin-bottom: 12px;
+/* --- Ambient backdrop: fine dot grid + soft radial glow --- */
+.hero__banner::before,
+.hero__banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
 }
 
-.hero__art-card h3 {
-    color: var(--color-dark) !important;
-    font-size: 24px;
+.hero__banner::before {
+    background-image:
+        linear-gradient(rgba(99, 102, 241, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.045) 1px, transparent 1px);
+    background-size: 26px 26px;
+    -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 0.9) 0, rgba(0, 0, 0, 0.9) 58%, transparent 76%);
+    mask-image: radial-gradient(circle, rgba(0, 0, 0, 0.9) 0, rgba(0, 0, 0, 0.9) 58%, transparent 76%);
+}
+
+.hero__banner::after {
+    border-radius: 50%;
+    background: radial-gradient(circle at center,
+        rgba(99, 102, 241, 0.10) 0%,
+        rgba(139, 92, 246, 0.08) 45%,
+        transparent 70%);
+}
+
+@keyframes heroBannerIn {
+    from { opacity: 0; transform: translateY(18px) scale(0.95); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* --- Soft background blobs --- */
+.hero__blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(54px);
+    z-index: 0;
+    pointer-events: none;
+}
+.hero__blob--1 { width: 240px; height: 240px; background: #eef0ff; top: -4%; left: -8%; }
+.hero__blob--2 { width: 230px; height: 230px; background: #f2ecff; bottom: -8%; right: -10%; }
+.hero__blob--3 { width: 170px; height: 170px; background: #e9f1ff; top: 42%; left: 26%; opacity: .5; }
+
+/* --- Gentle drift on the background blobs --- */
+.hero__blob--1 { animation: heroBlobDrift 16s ease-in-out infinite alternate; }
+.hero__blob--2 { animation: heroBlobDrift 20s ease-in-out infinite alternate; animation-delay: -8s; }
+.hero__blob--3 { animation: heroBlobDrift 24s ease-in-out infinite alternate; animation-delay: -4s; }
+
+@keyframes heroBlobDrift {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(22px, -14px) scale(1.08); }
+}
+
+/* --- Twinkling accent sparkles --- */
+.hero__sparkle {
+    position: absolute;
+    z-index: 2;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: heroTwinkle 3.2s ease-in-out infinite;
+}
+.hero__sparkle--1 { top: 12%; left: 20%; background: #a5b4fc; }
+.hero__sparkle--2 { top: 40%; right: 6%; background: #c4b5fd; animation-delay: 0.8s; }
+.hero__sparkle--3 { bottom: 30%; left: 4%; background: #a0c4ff; animation-delay: 1.6s; }
+.hero__sparkle--4 { bottom: 6%; right: 26%; background: #e6e1ff; animation-delay: 2.4s; }
+
+@keyframes heroTwinkle {
+    0%, 100% { opacity: 0.25; transform: scale(0.8); }
+    50%      { opacity: 1;    transform: scale(1.35); }
+}
+
+/* --- Central dashboard screen --- */
+.hero__screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 72%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    background: #fff;
+    border: 1px solid rgba(99, 102, 241, 0.10);
+    border-radius: 22px;
+    padding: 16px;
+    box-shadow: 0 28px 64px rgba(38, 34, 74, 0.16);
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.hero__screen-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f7;
+}
+.hero__screen-dots { display: flex; gap: 5px; }
+.hero__screen-dots i { width: 9px; height: 9px; border-radius: 50%; background: #e3e3ee; }
+.hero__screen-dots i:nth-child(1) { background: #fca5a5; }
+.hero__screen-dots i:nth-child(2) { background: #fcd34d; }
+.hero__screen-dots i:nth-child(3) { background: #6ee7b7; }
+.hero__screen-title {
+    flex: 1;
+    font-size: 12.5px;
     font-weight: 700;
+    color: #4b466b;
+}
+.hero__screen-user { font-size: 16px; }
+
+.hero__screen-body { padding-top: 14px; }
+
+/* --- Circular progress ring --- */
+.hero__ring {
+    position: relative;
+    width: 104px;
+    height: 104px;
+    margin: 0 auto 12px;
+}
+.hero__ring-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.hero__ring-track { fill: none; stroke: #ecebf5; stroke-width: 10; }
+.hero__ring-fill {
+    fill: none;
+    stroke: url(#heroRingGrad);
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-dasharray: 327;
+    stroke-dashoffset: 327;
+    transition: stroke-dashoffset 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hero__ring-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.1;
+}
+.hero__ring-label strong { font-size: 22px; color: var(--accent-ink); font-weight: 700; }
+.hero__ring-label span { font-size: 10.5px; color: #9b97b8; font-weight: 500; }
+
+/* --- Module rows inside the dashboard --- */
+.hero__modules { display: flex; flex-direction: column; gap: 10px; }
+.hero__module-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #6b6786;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+.hero__module-head b { color: var(--accent-ink); font-weight: 600; }
+.hero__module-track {
+    height: 6px;
+    background: #f0eff7;
+    border-radius: 999px;
+    overflow: hidden;
+}
+.hero__module-fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-indigo));
+}
+
+/* --- Floating course cards --- */
+.hero__float {
+    position: absolute;
+    z-index: 3;
+    animation: heroFloat 6s ease-in-out infinite;
+}
+.hero__float--python { top: 30%; left: 0; }
+.hero__float--sql    { top: 8%; right: 0; animation-delay: -1.5s; }
+.hero__float--js     { bottom: 14%; left: 2%; animation-delay: -3s; }
+.hero__float--django { bottom: 4%; right: 6%; animation-delay: -4.5s; }
+
+.hero__float-inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border: 1px solid rgba(99, 102, 241, 0.10);
+    border-radius: 14px;
+    padding: 9px 13px;
+    box-shadow: 0 12px 28px rgba(38, 34, 74, 0.12);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.hero__float:hover .hero__float-inner {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 18px 34px rgba(38, 34, 74, 0.2);
+}
+.hero__float-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: #f7f7ff;
+    flex: none;
+}
+.hero__float-text { display: flex; flex-direction: column; line-height: 1.15; text-align: left; }
+.hero__float-text strong { font-size: 13px; color: var(--accent-ink); font-weight: 700; }
+.hero__float-text small { font-size: 10.5px; color: #9b97b8; font-weight: 500; }
+
+/* --- Learning progress card --- */
+.hero__progress {
+    position: absolute;
+    top: 42%;
+    right: 0;
+    z-index: 3;
+    width: 186px;
+    background: #fff;
+    border: 1px solid rgba(99, 102, 241, 0.10);
+    border-radius: 16px;
+    padding: 13px 14px;
+    box-shadow: 0 14px 32px rgba(38, 34, 74, 0.13);
+    animation: heroFloat 6.5s ease-in-out infinite;
+    animation-delay: -2s;
+    text-align: left;
+}
+.hero__progress-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #6b6786;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.hero__progress-head b { color: var(--accent-indigo); font-size: 13px; }
+.hero__progress-track {
+    height: 8px;
+    background: #f0eff7;
+    border-radius: 999px;
+    overflow: hidden;
     margin-bottom: 8px;
 }
+.hero__progress-fill {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-violet));
+    transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hero__progress small { font-size: 11px; color: #9b97b8; font-weight: 500; }
 
-.hero__art-card p {
-    color: var(--color-text) !important;
-    font-size: 16px;
-    line-height: 24px;
+/* --- Notification chip --- */
+.hero__notice {
+    position: absolute;
+    top: 6%;
+    right: 8%;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid rgba(139, 92, 246, 0.16);
+    border-radius: 999px;
+    padding: 8px 14px;
+    box-shadow: 0 10px 24px rgba(38, 34, 74, 0.12);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-ink);
+    animation: heroFloat 7s ease-in-out infinite reverse;
+    animation-delay: -1s;
+}
+.hero__notice-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-violet));
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* --- Float keyframes (gentle, not distracting) --- */
+@keyframes heroFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-9px); }
+}
+
+/* Settle every decorative effect when the user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .hero__content > *,
+    .hero__banner,
+    .hero__float,
+    .hero__progress,
+    .hero__notice,
+    .hero__sparkle,
+    .hero__tagline-dot,
+    .hero__blob--1,
+    .hero__blob--2,
+    .hero__blob--3 { animation: none; }
+    .hero__ring-fill,
+    .hero__progress-fill { transition: none; }
+    .hero__float-inner { transition: none; }
+}
+
+/* --- Responsive banner --- */
+@media (max-width: 992px) {
+    .hero__banner { width: min(400px, 100%); }
+}
+
+@media (max-width: 768px) {
+    .hero__banner { width: min(340px, 92vw); }
+    .hero__screen { width: 76%; }
+    .hero__ring { width: 92px; height: 92px; }
+    .hero__float-inner { padding: 7px 11px; gap: 8px; }
+    .hero__float-icon { width: 30px; height: 30px; }
+    .hero__float-icon svg { width: 26px; height: 26px; }
+    .hero__float-text strong { font-size: 12px; }
+    .hero__float-text small { font-size: 9.5px; }
+    .hero__progress { width: 164px; padding: 11px 12px; }
+    .hero__blob--1 { width: 180px; height: 180px; }
+    .hero__blob--2 { width: 170px; height: 170px; }
+    .hero__blob--3 { width: 120px; height: 120px; }
+}
+
+@media (max-width: 480px) {
+    .hero__notice { display: none; }
+    .hero__float--python { top: 34%; }
+    .hero__float--sql { top: 4%; }
+    .hero__progress { top: 46%; }
 }
 /* ===== Cards (courses) - 16px radius, hairline, flat ===== */
 .course-card {
@@ -418,6 +891,14 @@ main > p {
     align-items: center;
     justify-content: center;
     font-size: 3rem;
+    overflow: hidden;
+}
+
+.course-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .course-card__body {
@@ -644,11 +1125,11 @@ main > p {
     margin-bottom: 8px;
 }
 
-/* ===== Forms ===== */
+/* ===== Auth pages (login / signup / social) ===== */
 .auth-section {
-    max-width: 480px;
+    max-width: 520px;
     margin: 0 auto;
-    padding: 48px 0;
+    padding: 64px 0 80px;
 }
 
 .auth-card {
@@ -656,19 +1137,39 @@ main > p {
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
     box-shadow: var(--shadow-lg);
-    padding: 32px;
+    padding: 40px 32px;
+}
+
+.auth-card__head {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.auth-card__icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: var(--color-bg);
+    color: var(--color-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    box-shadow: var(--shadow-float);
 }
 
 .auth-card h1 {
-    font-size: 28px;
-    margin-bottom: 6px;
+    font-size: 26px;
+    margin-bottom: 8px;
     text-align: center;
 }
 
 .auth-card__sub {
     text-align: center;
     color: var(--color-muted);
-    margin-bottom: 28px;
+    font-size: 15px;
+    line-height: 22px;
 }
 
 main > form {
@@ -769,7 +1270,7 @@ main p a {
 
 .auth-card__footer {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 24px;
     color: var(--color-muted);
     font-size: 15px;
 }
@@ -777,7 +1278,207 @@ main p a {
 .auth-card__footer a {
     color: var(--color-dark);
     font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
+
+/* ===== Auth form fields inside the card ===== */
+.auth-card form p {
+    margin-bottom: 18px;
+}
+
+.auth-card form p label {
+    display: block;
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: var(--color-dark);
+}
+
+.auth-card form input,
+.auth-card form select,
+.auth-card form textarea {
+    width: 100%;
+    padding: 15px 16px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--color-dark);
+    background: var(--color-bg);
+    transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-card form input::placeholder,
+.auth-card form textarea::placeholder {
+    color: var(--color-muted);
+    opacity: 1;
+}
+
+.auth-card form input:hover,
+.auth-card form select:hover,
+.auth-card form textarea:hover {
+    border-color: var(--color-border);
+}
+
+.auth-card form input:focus,
+.auth-card form select:focus,
+.auth-card form textarea:focus {
+    outline: none;
+    background: var(--color-white);
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-float);
+}
+
+.auth-card form .btn {
+    margin-top: 8px;
+    padding: 15px 24px;
+}
+
+.auth-card form .errorlist {
+    margin-top: 6px;
+    color: var(--color-dark);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* ===== Auth messages / errors / extra links ===== */
+.auth-card__message {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.auth-card__error {
+    margin-bottom: 18px;
+    padding: 12px 14px;
+    border: 1px solid #d9534f;
+    border-radius: var(--radius-sm);
+    background: #fdf1f0;
+    color: #c0392b;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.auth-card__forgot {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+.auth-card__forgot a {
+    color: var(--color-primary);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 15px 16px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--color-dark);
+    background: var(--color-bg);
+    transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-input::placeholder {
+    color: var(--color-muted);
+    opacity: 1;
+}
+
+.auth-input:hover {
+    border-color: var(--color-border);
+}
+
+.auth-input:focus {
+    outline: none;
+    background: var(--color-white);
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-float);
+}
+
+/* ===== Auth divider ("or continue with") ===== */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 28px 0;
+    color: var(--color-muted);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--color-border);
+}
+
+/* ===== Google button ===== */
+.btn--google {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--color-white);
+    color: var(--color-dark);
+    border: 1px solid var(--color-border);
+    border-radius: var(--pill);
+    padding: 15px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    box-shadow: var(--shadow-float);
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn--google:hover {
+    background: var(--color-bg);
+    border-color: var(--color-muted);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn--google:active {
+    background: var(--color-border);
+    box-shadow: none;
+}
+
+.btn--google__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* ===== Social provider pill (allauth pages) ===== */
+.auth-provider-pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--pill);
+    padding: 12px 24px;
+    margin-bottom: 24px;
+    font-weight: 500;
+    color: var(--color-dark);
+    font-size: 15px;
+}
+
 /* ===== Profile ===== */
 .profile-grid {
     display: grid;
@@ -847,6 +1548,137 @@ main p a {
     flex-direction: column;
     gap: 10px;
     margin-top: 20px;
+}
+
+/* ===== Profile page ===== */
+.profile-section {
+    padding: 48px 0 72px;
+}
+
+.profile-main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.profile-stat {
+    text-align: center;
+    padding: 24px 16px;
+}
+
+.profile-stat__value {
+    display: block;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-dark);
+    line-height: 1.1;
+    margin-bottom: 6px;
+}
+
+.profile-stat__label {
+    display: block;
+    font-size: 13px;
+    color: var(--color-muted);
+    font-weight: 500;
+}
+
+.profile__status {
+    font-weight: 600;
+}
+
+.profile__status.is-active {
+    color: var(--color-dark);
+}
+
+.profile__status.is-inactive {
+    color: var(--color-muted);
+}
+
+.profile-courses {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.profile-course {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    transition: box-shadow 0.2s ease;
+}
+
+.profile-course:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.profile-course__thumb {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.profile-course__body {
+    flex: 1;
+    min-width: 0;
+}
+
+.profile-course__title {
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+
+.profile-course__meta {
+    font-size: 13px;
+    color: var(--color-muted);
+    margin-bottom: 10px;
+}
+
+.profile-course .progress-bar {
+    height: 8px;
+}
+
+@media (max-width: 992px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-section {
+        padding: 32px 0 48px;
+    }
+
+    .profile-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .profile-stat {
+        padding: 18px 16px;
+    }
+
+    .profile-stat__value {
+        font-size: 26px;
+    }
 }
 
 /* ===== Progress ===== */
@@ -1107,6 +1939,10 @@ textarea:focus-visible {
         text-align: center;
     }
 
+    .hero__proof {
+        justify-content: center;
+    }
+
     .hero__text {
         margin-left: auto;
         margin-right: auto;
@@ -1128,6 +1964,20 @@ textarea:focus-visible {
 @media (max-width: 768px) {
     .container {
         padding: 0 16px;
+    }
+
+    .auth-section {
+        padding: 40px 0 56px;
+    }
+
+    .auth-card {
+        padding: 28px 20px;
+    }
+
+    .auth-card__icon {
+        width: 56px;
+        height: 56px;
+        font-size: 1.5rem;
     }
 
     .section {
@@ -1169,6 +2019,15 @@ textarea:focus-visible {
     .navbar__links > a {
         padding: 12px 8px;
         border-bottom: 1px solid var(--color-border);
+    }
+
+    .navbar__links > a::after {
+        display: none;
+    }
+
+    .navbar__links > a.is-active {
+        color: var(--color-dark);
+        background: var(--color-primary-light);
     }
 
     .navbar__auth {

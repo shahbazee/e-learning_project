@@ -1,0 +1,29 @@
+PAYMENT RECEIPT — E-Learning Platform
+=====================================
+
+Thank you for your purchase, {{ user.get_full_name|default:user.username }}!
+
+Billed to   : {{ user.email }}
+Receipt no. : {{ payment_reference }}
+
+ORDER SUMMARY
+-------------
+Course          : {{ course.name }}
+Quantity        : 1
+Amount paid     : ${{ amount_paid|floatformat:2 }}
+Total paid      : ${{ amount_paid|floatformat:2 }}
+
+PAYMENT DETAILS
+---------------
+Status          : {{ payment_status }}
+Payment date    : {{ payment_date|date:"F j, Y \a\t g:i A"|default:"—" }}
+Payment method  : {{ payment_method }}
+Reference       : {{ payment_reference }}
+
+You are now enrolled in "{{ course.name }}". Happy learning!
+
+-------------------------------------
+This is an automated receipt. Please
+keep it for your records. Questions
+about your purchase? Contact support
+at {{ support_email|default:"our support team" }}.

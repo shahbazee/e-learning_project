@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if error %}Payment Could Not Be Verified{% else %}Payment Successful - E-Learning{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<section class="payment-result">
+    <div class="container">
+
+        {% if error %}
+
+        <!-- ===== Error state: money was taken but the page could not verify it ===== -->
+        <div style="max-width:620px;margin:40px auto;background:#ffffff;border:1px solid #e2e2e2;border-radius:16px;padding:32px;">
+            <div style="width:64px;height:64px;margin:0 auto;border-radius:50%;background:#e8e8e8;color:#000;font-size:32px;line-height:64px;text-align:center;">⚠️</div>
+            <h1 style="text-align:center;margin:18px 0 6px;font-size:24px;">Payment could not be verified</h1>
+            <p style="text-align:center;color:#5e5e5e;margin:6px 0 20px;">
+                {{ error }}
+            </p>
+            <p style="text-align:center;color:#5e5e5e;line-height:1.7;">
+                If money was taken from your card, don't worry — your payment was already
+                recorded by our payment provider and your receipt will be emailed to you
+                within a few minutes. If you do not receive it, please
+                <a href="{% url 'contact' %}">contact support</a> and mention your
+                <strong>payment reference</strong> from the Stripe confirmation page.
+            </p>
+            <div style="text-align:center;margin-top:24px;">
+                <a href="{% url 'course_list' %}" class="btn btn--primary">Back to Courses</a>
+                <a href="{% url 'my_enrollments' %}" class="btn btn--outline">My Courses</a>
+            </div>
+        </div>
+
+        {% else %}
+
+        <!-- ===== Success state: professional receipt ===== -->
+        <div style="max-width:680px;margin:40px auto;background:#ffffff;border:1px solid #e2e2e2;border-radius:16px;overflow:hidden;">
+            <div style="background:#000;color:#fff;padding:20px 32px;display:flex;align-items:center;gap:12px;">
+                <span style="font-size:28px;">✅</span>
+                <div>
+                    <h1 style="margin:0;font-size:22px;">Payment Successful!</h1>
+                    <p style="margin:2px 0 0;font-size:13px;">Thank you — you are now enrolled and ready to learn.</p>
+                </div>
+            </div>
+
+            <div style="padding:28px 32px;">
+                <p style="color:#5e5e5e;font-size:14px;margin:0 0 20px;">
+                    <strong>Receipt #</strong> {{ payment_reference }}
+                    &nbsp;·&nbsp; Billed to <strong>{{ customer_email }}</strong>
+                </p>
+
+                <table style="width:100%;border-collapse:collapse;font-size:15px;">
+                    <tr>
+                        <td style="padding:12px 14px;background:#f4f4f4;font-weight:600;border-bottom:1px solid #e2e2e2;">Course</td>
+                        <td style="padding:12px 14px;background:#f4f4f4;border-bottom:1px solid #e2e2e2;">{{ course.name }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:12px 14px;font-weight:600;border-bottom:1px solid #e2e2e2;">Amount paid</td>
+                        <td style="padding:12px 14px;border-bottom:1px solid #e2e2e2;">${{ amount_paid|floatformat:2 }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:12px 14px;font-weight:600;border-bottom:1px solid #e2e2e2;">Payment status</td>
+                        <td style="padding:12px 14px;border-bottom:1px solid #e2e2e2;"><span style="background:#eef2e6;color:#1d5c1d;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;">Paid</span></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:12px 14px;font-weight:600;border-bottom:1px solid #e2e2e2;">Payment date</td>
+                        <td style="padding:12px 14px;border-bottom:1px solid #e2e2e2;">{{ payment_date|date:"F j, Y \a\t g:i A"|default:"—" }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:12px 14px;font-weight:600;border-bottom:1px solid #e2e2e2;">Payment method</td>
+                        <td style="padding:12px 14px;border-bottom:1px solid #e2e2e2;">{{ payment_method }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:12px 14px;font-weight:600;">Reference</td>
+                        <td style="padding:12px 14px;font-family:monospace;">{{ payment_reference }}</td>
+                    </tr>
+                </table>
+
+                {% if receipt_sent %}
+                    <p style="color:#1d5c1d;font-size:14px;margin-top:20px;">
+                        📧 A copy of this receipt has been emailed to <strong>{{ customer_email }}</strong>.
+                    </p>
+                {% else %}
+                    <p style="color:#8a6d1d;font-size:14px;margin-top:20px;">
+                        ⏳ Your receipt is on its way to <strong>{{ customer_email }}</strong>.
+                        If you don't see it within a few minutes, check your spam folder or
+                        <a href="{% url 'contact' %}">contact support</a>.
+                    </p>
+                {% endif %}
+
+                <div style="text-align:center;margin-top:28px;">
+                    <a href="{% url 'my_enrollments' %}" class="btn btn--primary" style="margin-right:10px;">Go to My Courses</a>
+                    <a href="{% url 'course_list' %}" class="btn btn--outline">Continue Browsing</a>
+                </div>
+            </div>
+        </div>
+
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

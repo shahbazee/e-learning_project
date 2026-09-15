@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Home | E-Learning Platform{% endblock %}
 
@@ -9,24 +10,158 @@
     <div class="container hero__inner">
         <div class="hero__content">
             <span class="hero__tagline">
-                🎉 {% if user.is_authenticated %}Welcome back, {{ user.username }}{% else %}Trusted by 25,000+ students{% endif %}
+                <span class="hero__tagline-dot" aria-hidden="true"></span>
+                {% if user.is_authenticated %}Welcome back, {{ user.username }}{% else %}Trusted by 25,000+ students{% endif %}
             </span>
-            <h1 class="hero__title">Learn Any Skill, <span>Anytime, Anywhere.</span></h1>
+            <h1 class="hero__title">
+                Learn Any Skill, <span class="hero__title-mark">Anytime, Anywhere.</span>
+            </h1>
             <p class="hero__text">
                 Join thousands of students and advance your career with expert-led
                 online courses in programming, design, business, and more.
             </p>
             <div class="hero__actions">
-                <a href="{% url 'course_list' %}" class="btn btn--light">Explore Courses</a>
+                <a href="{% url 'course_list' %}" class="btn btn--light">Explore Courses <span class="btn__arrow" aria-hidden="true">&rarr;</span></a>
                 <a href="{% url 'signup' %}" class="btn btn--outline">Get Started</a>
+            </div>
+
+            <div class="hero__proof">
+                <div class="hero__avatars" aria-hidden="true">
+                    <span class="hero__avatars-item" style="--avatar-bg:#6366f1">AK</span>
+                    <span class="hero__avatars-item" style="--avatar-bg:#8b5cf6">MS</span>
+                    <span class="hero__avatars-item" style="--avatar-bg:#f59e0b">SR</span>
+                    <span class="hero__avatars-item" style="--avatar-bg:#10b981">+</span>
+                </div>
+                <div class="hero__proof-meta">
+                    <div class="hero__stars" role="img" aria-label="Rated 4.9 out of 5">★★★★★</div>
+                    <span class="hero__proof-text"><strong>4.9/5</strong> from 25,000+ students</span>
+                </div>
             </div>
         </div>
 
         <div class="hero__art">
-            <div class="hero__art-card">
-                <span class="emoji">📚</span>
-                <h3 style="color:#fff;">Learn by Doing</h3>
-                <p style="color:rgba(255,255,255,0.9);">Interactive lessons, real projects, flexible pace.</p>
+            <div class="hero__banner" id="heroBanner" aria-hidden="true">
+                <!-- Soft background accents -->
+                <span class="hero__blob hero__blob--1"></span>
+                <span class="hero__blob hero__blob--2"></span>
+                <span class="hero__blob hero__blob--3"></span>
+
+                <!-- Twinkling ambient sparkles -->
+                <span class="hero__sparkle hero__sparkle--1" aria-hidden="true"></span>
+                <span class="hero__sparkle hero__sparkle--2" aria-hidden="true"></span>
+                <span class="hero__sparkle hero__sparkle--3" aria-hidden="true"></span>
+                <span class="hero__sparkle hero__sparkle--4" aria-hidden="true"></span>
+
+                <!-- Central learning dashboard -->
+                <div class="hero__screen">
+                    <div class="hero__screen-top">
+                        <span class="hero__screen-dots"><i></i><i></i><i></i></span>
+                        <span class="hero__screen-title">My Learning Dashboard</span>
+                        <span class="hero__screen-user">👤</span>
+                    </div>
+                    <div class="hero__screen-body">
+                        <div class="hero__ring">
+                            <svg class="hero__ring-svg" viewBox="0 0 120 120" aria-hidden="true">
+                                <defs>
+                                    <linearGradient id="heroRingGrad" x1="0" y1="0" x2="1" y2="1">
+                                        <stop offset="0%" stop-color="#4f7cff"/>
+                                        <stop offset="100%" stop-color="#8b5cf6"/>
+                                    </linearGradient>
+                                </defs>
+                                <circle class="hero__ring-track" cx="60" cy="60" r="52"></circle>
+                                <circle class="hero__ring-fill" cx="60" cy="60" r="52" data-progress="75"></circle>
+                            </svg>
+                            <div class="hero__ring-label">
+                                <strong>75%</strong>
+                                <span>Progress</span>
+                            </div>
+                        </div>
+                        <div class="hero__modules">
+                            <div class="hero__module">
+                                <div class="hero__module-head"><span>Frontend</span><b>90%</b></div>
+                                <div class="hero__module-track"><i class="hero__module-fill" style="width:90%"></i></div>
+                            </div>
+                            <div class="hero__module">
+                                <div class="hero__module-head"><span>Backend</span><b>70%</b></div>
+                                <div class="hero__module-track"><i class="hero__module-fill" style="width:70%"></i></div>
+                            </div>
+                            <div class="hero__module">
+                                <div class="hero__module-head"><span>Databases</span><b>48%</b></div>
+                                <div class="hero__module-track"><i class="hero__module-fill" style="width:48%"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating course cards -->
+                <article class="hero__float hero__float--python">
+                    <div class="hero__float-inner">
+                        <span class="hero__float-icon">
+                            <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">
+                                <path fill="#306998" d="M11.9 0C7.46 0 7.02 2.13 7.02 2.13l.01 2.16h4.9v.65H4.36S.75 4.86.75 9.4c0 4.55 3.31 4.4 3.31 4.4h1.98v-2.12s-.11-2.52 2.49-2.52h4.29S15.5 9.05 15.5 6.88V2.37S15.14 0 11.9 0zM9.69 1.36c.42 0 .77.34.77.77s-.35.77-.77.77-.77-.35-.77-.77.35-.77.77-.77z"/>
+                                <path fill="#FFD43B" d="M12.1 24c4.44 0 4.88-2.13 4.88-2.13v-2.16h-4.9v-.65h6.56s3.61.38 3.61-4.16-3.31-4.4-3.31-4.4h-1.98v2.12s.11 2.52-2.49 2.52h-4.29S8.5 14.95 8.5 17.12v4.51s.36 2.37 3.6 2.37zm2.21-1.36c-.42 0-.77-.35-.77-.77s.35-.77.77-.77.77.35.77.77-.35.77-.77.77z"/>
+                            </svg>
+                        </span>
+                        <span class="hero__float-text"><strong>Python</strong><small>Data &amp; AI</small></span>
+                    </div>
+                </article>
+
+                <article class="hero__float hero__float--sql">
+                    <div class="hero__float-inner">
+                        <span class="hero__float-icon">
+                            <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">
+                                <g fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round">
+                                    <ellipse cx="12" cy="5.5" rx="7.5" ry="3"/>
+                                    <path d="M4.5 5.5v13c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3v-13"/>
+                                    <path d="M4.5 12c0 1.66 3.36 3 7.5 3s7.5-1.34 7.5-3" opacity=".5"/>
+                                </g>
+                            </svg>
+                        </span>
+                        <span class="hero__float-text"><strong>SQL</strong><small>Databases</small></span>
+                    </div>
+                </article>
+
+                <article class="hero__float hero__float--js">
+                    <div class="hero__float-inner">
+                        <span class="hero__float-icon">
+                            <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">
+                                <rect width="24" height="24" rx="5" fill="#F7DF1E"/>
+                                <path fill="#111" d="M7 17.5c.6.5 1.3.8 2 .8 1 0 1.6-.5 1.6-1.2 0-.9-.7-1.3-1.8-1.7-1-.4-2-.8-2-2.2 0-1.3 1-2.2 2.5-2.2.9 0 1.6.3 2.2.7l-.6 1.2c-.5-.3-1-.5-1.6-.5-.8 0-1.2.4-1.2 1 0 .7.6 1 1.7 1.4 1.1.5 2.1 1.1 2.1 2.3 0 1.4-1 2.3-2.6 2.3-1.1 0-2.2-.4-2.8-.9zM16.5 17.6c.5.3 1.1.5 1.7.5.8 0 1.3-.3 1.3-.9 0-.6-.3-.9-1.4-1.3-1.1-.4-2.1-1-2.1-2.2 0-1.3 1.1-2.2 2.7-2.2.9 0 1.7.2 2.2.5l-.5 1.2c-.5-.3-1.1-.5-1.7-.5-.7 0-1.1.3-1.1.8 0 .5.5.8 1.5 1.2 1.1.5 2.1 1 2.1 2.3 0 1.4-1.2 2.2-2.9 2.2-1.1 0-2-.3-2.7-.8z"/>
+                            </svg>
+                        </span>
+                        <span class="hero__float-text"><strong>JavaScript</strong><small>Interactive Web</small></span>
+                    </div>
+                </article>
+
+                <article class="hero__float hero__float--django">
+                    <div class="hero__float-inner">
+                        <span class="hero__float-icon">
+                            <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">
+                                <path fill="#092E20" d="M12.8 1h-1.6v14.4c0 .2.1.3.2.3h1.3c.1 0 .2-.1.2-.3V1z"/>
+                                <path fill="#44B78B" d="M9 11.5c-.6-.5-1.4-.7-2.3-.7C4.8 10.8 3 12.4 3 15.5c0 3.1 1.9 4.6 4.3 4.6 1.2 0 2.3-.4 3.1-1.1v-1.4c-.6.5-1.4.9-2.3.9-2.1 0-3.3-1.4-3.3-3.4 0-2 1.2-3.5 3.3-3.5.6 0 1.1.1 1.6.3l.8.2v-1.9l-.5-.3zM20.6 4.5V9.4h-2.2c-1.3 0-2 .6-2.4 1.8v8.8h-2.8v-9c.1-2.8 1.7-4.5 4.5-4.5h2.9z"/>
+                            </svg>
+                        </span>
+                        <span class="hero__float-text"><strong>Django</strong><small>Backend Web</small></span>
+                    </div>
+                </article>
+
+                <!-- Learning progress card -->
+                <div class="hero__progress">
+                    <div class="hero__progress-head">
+                        <span>Learning Progress</span>
+                        <b>78%</b>
+                    </div>
+                    <div class="hero__progress-track">
+                        <span class="hero__progress-fill" data-progress="78"></span>
+                    </div>
+                    <small>Full-Stack Career Track</small>
+                </div>
+
+                <!-- Notification chip -->
+                <div class="hero__notice">
+                    <span class="hero__notice-check">✓</span>
+                    <span>Course Completed</span>
+                </div>
             </div>
         </div>
     </div>
@@ -45,7 +180,13 @@
             <div class="grid grid--3">
                 {% for course in courses %}
                     <article class="course-card">
-                        <div class="course-card__image">🏫</div>
+                        <div class="course-card__image">
+                            {% if course.image %}
+                                <img src="{{ course.image.url }}" alt="{{ course.name }}" class="course-card__img">
+                            {% else %}
+                                <img src="{% static course.image_url %}" alt="{{ course.name }}" class="course-card__img">
+                            {% endif %}
+                        </div>
                         <div class="course-card__body">
                             <div class="course-card__meta">
                                 <span class="course-card__category">{{ course.course_type }}</span>
@@ -58,12 +199,16 @@
                             <h3 class="course-card__title">{{ course.name }}</h3>
                             <p class="course-card__desc">{{ course.description|truncatewords:20 }}</p>
                             <div class="course-card__footer">
-                                <span class="course-card__instructor">👨‍🏫 {{ course.instructor }}</span>
-                                {% if user.is_authenticated %}
-                                    <a href="{% url 'enroll_course' course.id %}" class="btn btn--primary">Enroll Now</a>
-                                {% else %}
-                                    <a href="{% url 'login' %}" class="btn btn--primary">Login to Enroll</a>
-                                {% endif %}
+                                <span class="course-card__instructor">
+                                    👨‍🏫 {{ course.instructor }}
+                                </span>
+
+                                <a
+                                    href="{% url 'courses_detail' course.id %}"
+                                    class="btn btn--primary"
+                                >
+                                    View Course
+                                </a>
                             </div>
                         </div>
                     </article>

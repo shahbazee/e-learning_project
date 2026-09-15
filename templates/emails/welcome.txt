@@ -1,0 +1,17 @@
+Hello {{ user.first_name|default:user.username }},
+
+Welcome to the E-Learning Platform! 🎉
+
+Your registration was successful and your email address has been verified.
+Your account (@{{ user.username }}) is now active and you can log in to start
+learning right away.
+
+What you can do next:
+- Browse courses across programming, databases, and web development.
+- Enroll in free courses instantly or pay securely with Stripe.
+- Track your progress from your profile page.
+
+If you did not create this account, please ignore this email.
+
+Best regards,
+The E-Learning Team

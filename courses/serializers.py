@@ -13,4 +13,5 @@ class CourseSerializer(serializers.ModelSerializer):
             'course_type',
             'created_date',
             'published_status',
+            'image',
         ]

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-labelledby="title desc">
+  <title id="title">Database / SQL Course</title>
+  <desc id="desc">Professional course artwork for databases and SQL</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a2035"/>
+      <stop offset="100%" stop-color="#090c16"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <circle cx="690" cy="70" r="190" fill="#ffffff" opacity="0.045"/>
+  <circle cx="110" cy="420" r="150" fill="#ffffff" opacity="0.035"/>
+  <ellipse cx="400" cy="150" rx="120" ry="34" fill="none" stroke="#7AA2FF" stroke-width="6"/>
+  <path d="M280 150 v60 c0 19 54 34 120 34 s120 -15 120 -34 v-60" fill="none" stroke="#7AA2FF" stroke-width="6"/>
+  <path d="M280 210 v55 c0 19 54 34 120 34 s120 -15 120 -34 v-55" fill="none" stroke="#7AA2FF" stroke-width="6" opacity="0.65"/>
+  <text x="400" y="355" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="72" font-weight="700" fill="#7AA2FF" letterspacing="2">SQL · DATABASE</text>
+  <text x="400" y="405" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="500" fill="#6f7fa8" letterspacing="4">QUERY · MODEL · STORE</text>
+</svg>

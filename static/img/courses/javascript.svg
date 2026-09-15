@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-labelledby="title desc">
+  <title id="title">JavaScript Course</title>
+  <desc id="desc">Professional course artwork for JavaScript</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#29261b"/>
+      <stop offset="100%" stop-color="#10100d"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <circle cx="690" cy="70" r="190" fill="#ffffff" opacity="0.045"/>
+  <circle cx="110" cy="420" r="150" fill="#ffffff" opacity="0.035"/>
+  <text x="400" y="215" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="92" font-weight="700" fill="#F7DF1E" letterspacing="-2">JavaScript</text>
+  <text x="400" y="280" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="500" fill="#a6a089" letterspacing="4">WEB · INTERACTIVE · MODERN</text>
+</svg>

@@ -1,0 +1,27 @@
+{% extends "socialaccount/base_entrance.html" %}
+{% load i18n %}
+
+{% block title %}
+Login Cancelled - E-Learning
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+    <div class="auth-card">
+
+        <h1>Login Cancelled</h1>
+        <p class="auth-card__sub">
+            You decided to cancel logging in to our site using one of your existing accounts.
+            If this was a mistake, please proceed to
+            <a href="{% url 'account_login' %}">sign in</a>.
+        </p>
+
+        <a href="{% url 'home' %}" class="btn btn--primary btn--block">
+            Back to Home
+        </a>
+
+    </div>
+</section>
+
+{% endblock %}
